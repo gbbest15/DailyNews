@@ -3,7 +3,7 @@
 import Foundation
 
 class NetworkManager: ObservableObject {
-    
+    @Published var loaded: Bool = false
     @Published var posts = [Post]()
     
     func fetchData() {
@@ -16,6 +16,7 @@ class NetworkManager: ObservableObject {
                         do {
                             let results = try decoder.decode(Results.self, from: safeData)
                             DispatchQueue.main.async {
+                                self.loaded = true
                                 self.posts = results.hits
                             }
                         } catch {
